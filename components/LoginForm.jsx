@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userType,setUserType] = useState()
+  const [userType, setUserType] = useState();
   const router = useRouter();
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -16,25 +16,52 @@ const LoginForm = () => {
       return;
     }
     try {
-      const res = await axios.post(`/api/${userType}/login`, {
-        email: email,
-        password: password,
-      });
-      if (res.data.username) {
-        localStorage.setItem('__ut', userType);
-        // localStorage.setItem('__uid',token from response)
-        // router.push('/user/dashboard');
-      }
+      const res = await fetch(`/api/${userType}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([
+          {
+            email: email,
+            password: password,
+          },
+        ]),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data[userType]) {
+            localStorage.setItem('__ut', userType);
+            // localStorage.setItem('__uid',token from response)
+            localStorage.setItem('__uid', data[userType]._id);
+            router.push(`/${userType}/dashboard`);
+          } else {
+            toast.error('User not found, please Register or try again');
+          }
+        });
     } catch (err) {
       console.log(err);
     }
   };
   return (
     <div className="p-4 flex flex-col">
-      <div className='flex justify-center gap-4'>
-        <button onClick={()=>setUserType('distributer')} className={` px-4 py-2 rounded ${userType === 'distributer' ? 'bg-red-400' :'bg-purple-500'}`}>Distributer</button>
-        <button onClick={()=>setUserType('user')} className={`bg-purple-500 px-4 py-2 rounded ${userType === 'user' ? 'bg-red-400' :'bg-purple-500'}`}>User</button>
-
+      <div className="flex justify-center gap-4">
+        <button
+          onClick={() => setUserType('distributer')}
+          className={` px-4 py-2 rounded ${
+            userType === 'distributer' ? 'bg-red-400' : 'bg-purple-500'
+          }`}
+        >
+          Distributer
+        </button>
+        <button
+          onClick={() => setUserType('user')}
+          className={`bg-purple-500 px-4 py-2 rounded ${
+            userType === 'user' ? 'bg-red-400' : 'bg-purple-500'
+          }`}
+        >
+          User
+        </button>
       </div>
       <div>
         <label htmlFor="email">Email</label>

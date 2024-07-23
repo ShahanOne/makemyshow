@@ -1,26 +1,37 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '../../../../utils/db';
 import bcrypt from 'bcrypt';
-import User from '@/lib/models/user';
-connectDB();
-
-const verifyPassword = async (password, hashedPassword) => {
-  return await bcrypt.compare(password, hashedPassword);
-};
+import User from '../../../../lib/models/user';
+let isConnected = false;
+if (!isConnected) {
+  connectDB();
+  isConnected = true;
+}
 
 export async function POST(req) {
-  const { email, password } = await req.json();
-
+  const body = await req.json();
+  const { email, password } = body[0];
   try {
-    const user = await User.findOne({ email: email });
-    const isPasswordCorrect = await verifyPassword(password, user.password);
-    if (isPasswordCorrect) {
-      return NextResponse.json(user);
+    const foundUser = await User.findOne({ email: email })
+      .populate('boughtTickets')
+      .populate('wishlistedTickets')
+      .exec();
+
+    if (!foundUser) {
+      return NextResponse.json({ status: 401, message: 'User not found' });
     }
-  } catch (err) {
-    return NextResponse.json(
-      { error: 'An error occurred while logging User' },
-      { status: 500 }
+
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      foundUser.password
     );
+
+    if (!isPasswordCorrect) {
+      return NextResponse.json({ status: 401, message: 'Incorrect password' });
+    }
+
+    return NextResponse.json({ status: 200, user: foundUser });
+  } catch (error) {
+    console.log(err);
   }
 }

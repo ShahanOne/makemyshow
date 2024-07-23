@@ -5,10 +5,10 @@ export default function Home() {
       Honka
       <div className="flex justify-between">
         <button className="p-4 bg-orange-400 text-white rounded-lg">
-          Login
+          <a href="/login">Login</a>
         </button>
         <button className="p-4 bg-slate-500 text-white rounded-lg">
-          Register
+          <a href="/register">Register</a>
         </button>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '../../../utils/db';
-import Distributer from '@/lib/models/distributer';
+import Distributer from '../../../lib/models/distributer';
 connectDB();
 
 export async function GET() {

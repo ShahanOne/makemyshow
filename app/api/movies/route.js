@@ -1,13 +1,12 @@
 import { NextResponse } from 'next/server';
-import { parseBody } from 'next/dist/server/api-utils';
 import mongoose from 'mongoose';
 import { connectDB } from '../../../utils/db';
-import Movie from '@/lib/models/movie';
+import Movie from '../../../lib/models/movie';
 connectDB();
 
 export async function GET() {
   try {
-    const foundMovies = await Movie.find({});
+    const foundMovies = await Movie.find({}).populate('distributer');
     return NextResponse.json(foundMovies);
   } catch (err) {
     return NextResponse.json(
@@ -17,14 +16,22 @@ export async function GET() {
   }
 }
 export async function POST(req) {
-  const { body } = await parseBody(req);
+  const body = await req.json();
 
-  const { name, duration, numberOfTickets, releaseDate, poster, availableFor } =
-    body;
+  const {
+    name,
+    duration,
+    distributerId,
+    numberOfTickets,
+    releaseDate,
+    poster,
+    availableFor,
+  } = body[0];
 
   const movie = new Movie({
     name: name,
     duration: duration,
+    distributer: distributerId,
     numberOfTickets: numberOfTickets,
     releaseDate: releaseDate ? new Date(releaseDate) : undefined,
     poster: poster,
@@ -32,7 +39,11 @@ export async function POST(req) {
   });
   try {
     const newMovie = await movie.save();
-    return NextResponse.json(newMovie);
+    const populatedMovie = await newMovie.populate('distributer');
+    return NextResponse.json({
+      status: 200,
+      movie: populatedMovie,
+    });
   } catch (err) {
     return NextResponse.json(
       { error: 'An error occurred while saving movie' },
