@@ -7,19 +7,52 @@ const MovieCard = ({
   numberOfTickets,
   releaseDate,
   poster,
+  book,
+  info,
   //   availableFor,
 }) => {
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split('T')[0].split('-');
+    return `${day}/${month}/${year}`;
+  };
   return (
-    <div className="card">
-      <Image src={poster} alt="poster" />
-      <div className="bg-slate-300 hover:bg-[#EF5A6F]">
-        <div className="flex justify-between">
-          <p>{name}</p>
-          <p>{duration}</p>
+    <div className="card rounded-lg shadow-lg cursor-pointer">
+      <img
+        className="h-48 w-full rounded-lg"
+        src={poster}
+        alt="poster"
+        //   width={200} height={100}
+      />
+      <div className="hover:bg-[#EF5A6F] rounded-lg">
+        <div className="bg-slate-100 hover:bg-[#EF5A6F] rounded-lg p-2 text-sm hover:text-white">
+          <div className="flex justify-between">
+            <p>
+              Title: <b>{name}</b>
+            </p>
+            <p>
+              Runtime: <b>{duration}</b> mins
+            </p>
+          </div>
+          <div>
+            <p>
+              Release date: <b>{formatDate(releaseDate)}</b>
+            </p>
+            <p>Tickets remaining: {numberOfTickets}</p>
+          </div>
         </div>
-        <div>
-          <p>{releaseDate}</p>
-          <p>{numberOfTickets}</p>
+        <div className="flex justify-between gap-4 p-2 hover:hover:bg-[#EF5A6F] rounded-lg">
+          <button
+            className="bg-slate-200 hover:bg-pink-500 w-full rounded-lg shadow hover:text-white"
+            onClick={() => info()}
+          >
+            Info
+          </button>
+          <button
+            className="bg-slate-200 hover:bg-pink-500 w-full rounded-lg shadow hover:text-white"
+            onClick={() => book()}
+          >
+            Book
+          </button>
         </div>
       </div>
     </div>

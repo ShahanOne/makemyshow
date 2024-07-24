@@ -1,9 +1,11 @@
 'use client';
-import MovieCard from '../../../components/MovieCard';
+import { useRouter } from 'next/navigation';
+import MovieCard from '../components/MovieCard';
 import React, { useEffect, useState } from 'react';
 
-const dashboard = () => {
+export default function Home() {
   const [allMovies, setAllMovies] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     const getAllMovies = async () => {
@@ -20,14 +22,16 @@ const dashboard = () => {
     getAllMovies();
   }, []);
   return (
-    <div className="user_dashboard p-8">
+    <div className="home p-8">
       <div>
-        <p>Listed Movies</p>
+        <p>All Movies</p>
         <div className="grid grid-cols-4 gap-8 py-8">
           {allMovies.length &&
             allMovies.map((movie, index) => (
               <MovieCard
                 key={index}
+                info={() => router.replace(`/movie/${movie._id}`)}
+                book={() => ''}
                 name={movie.name}
                 poster={movie.poster}
                 duration={movie.duration}
@@ -39,6 +43,4 @@ const dashboard = () => {
       </div>
     </div>
   );
-};
-
-export default dashboard;
+}

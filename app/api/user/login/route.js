@@ -33,5 +33,10 @@ export async function POST(req) {
     return NextResponse.json({ status: 200, user: foundUser });
   } catch (error) {
     console.log(err);
+    return NextResponse.json({
+      status: 500,
+      message: 'Error logging User',
+      error: error,
+    });
   }
 }

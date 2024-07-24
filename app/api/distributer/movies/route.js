@@ -8,7 +8,7 @@ export async function POST(req) {
   const { distributerId } = body[0];
   try {
     const foundMovies = await Movie.find({
-      'distributer._id': distributerId,
+      distributer: distributerId,
     }).exec();
     return NextResponse.json(foundMovies);
   } catch (err) {

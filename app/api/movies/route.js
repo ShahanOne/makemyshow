@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import mongoose from 'mongoose';
 import { connectDB } from '../../../utils/db';
 import Movie from '../../../lib/models/movie';
+import Distributer from '../../../lib/models/distributer';
 connectDB();
 
 export async function GET() {
@@ -9,6 +10,7 @@ export async function GET() {
     const foundMovies = await Movie.find({}).populate('distributer');
     return NextResponse.json(foundMovies);
   } catch (err) {
+    console.log(err);
     return NextResponse.json(
       { error: 'An error occurred while fetching movies' },
       { status: 500 }

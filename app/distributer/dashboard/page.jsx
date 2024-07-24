@@ -43,6 +43,7 @@ const dashboard = () => {
               <MovieCard
                 key={index}
                 name={movie.name}
+                poster={movie.poster}
                 duration={movie.duration}
                 releaseDate={movie.releaseDate}
                 numberOfTickets={movie.numberOfTickets}
