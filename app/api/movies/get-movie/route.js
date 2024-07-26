@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { connectDB } from '../../../../utils/db';
 import Movie from '../../../../lib/models/movie';
 import Review from '../../../../lib/models/review';
+import User from '../../../../lib/models/user';
+import Distributer from '../../../../lib/models/distributer';
+
 let isConnected = false;
 if (!isConnected) {
   connectDB();
@@ -13,7 +16,14 @@ export async function POST(req) {
   const { movieId } = body[0];
   try {
     const foundMovie = await Movie.findOne({ _id: movieId })
-      .populate('reviews')
+      .populate({
+        path: 'reviews',
+        populate: {
+          path: 'user',
+          model: 'User',
+        },
+      })
+      .populate('distributer')
       .exec();
 
     if (!foundMovie) {

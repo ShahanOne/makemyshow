@@ -12,10 +12,10 @@ export async function POST(req) {
   const body = await req.json();
   const { email, password } = body[0];
   try {
-    const foundUser = await User.findOne({ email: email })
-      .populate('boughtTickets')
-      .populate('wishlistedTickets')
-      .exec();
+    const foundUser = await User.findOne({ email: email });
+    // .populate('boughtTickets')
+    // .populate('wishlist')
+    // .exec();
 
     if (!foundUser) {
       return NextResponse.json({ status: 401, message: 'User not found' });

@@ -1,12 +1,17 @@
 'use client';
 import AddMovie from '../../../components/AddMovie';
+import Navbar from '../../../components/Navbar';
+
 import React from 'react';
 
 const addMovie = () => {
   return (
-    <div>
-      <AddMovie />
-    </div>
+    <>
+      <Navbar />
+      <div>
+        <AddMovie />
+      </div>
+    </>
   );
 };
 

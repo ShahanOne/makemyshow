@@ -1,4 +1,5 @@
 'use client';
+import Navbar from '../../../components/Navbar';
 import MovieCard from '../../../components/MovieCard';
 import React, { useEffect, useState } from 'react';
 
@@ -34,24 +35,27 @@ const dashboard = () => {
     getAllMovies();
   }, []);
   return (
-    <div className="distributer_dashboard">
-      <div>
-        <p>Listed Movies</p>
-        <div className="grid grid-cols-4 gap-4">
-          {listedMovies.length &&
-            listedMovies.map((movie, index) => (
-              <MovieCard
-                key={index}
-                name={movie.name}
-                poster={movie.poster}
-                duration={movie.duration}
-                releaseDate={movie.releaseDate}
-                numberOfTickets={movie.numberOfTickets}
-              />
-            ))}
+    <>
+      <Navbar />
+      <div className="distributer_dashboard">
+        <div>
+          <p>Listed Movies</p>
+          <div className="grid grid-cols-4 gap-4">
+            {listedMovies.length &&
+              listedMovies.map((movie, index) => (
+                <MovieCard
+                  key={index}
+                  name={movie.name}
+                  poster={movie.poster}
+                  duration={movie.duration}
+                  releaseDate={movie.releaseDate}
+                  numberOfTickets={movie.numberOfTickets}
+                />
+              ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
-
+import formatDate from '../lib/functions/formatDate';
 const MovieCard = ({
   name,
   duration,
@@ -11,10 +11,6 @@ const MovieCard = ({
   info,
   //   availableFor,
 }) => {
-  const formatDate = (dateString) => {
-    const [year, month, day] = dateString.split('T')[0].split('-');
-    return `${day}/${month}/${year}`;
-  };
   return (
     <div className="card rounded-lg shadow-lg cursor-pointer">
       <img
