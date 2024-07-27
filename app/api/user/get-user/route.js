@@ -22,13 +22,7 @@ export async function POST(req) {
           model: 'Movie',
         },
       })
-      .populate({
-        path: 'wishlist',
-        populate: {
-          path: 'movie',
-          model: 'Movie',
-        },
-      })
+      .populate('wishlist')
       .exec();
 
     if (!foundUser) {

@@ -8,6 +8,26 @@ const dashboard = () => {
   const [allMovies, setAllMovies] = useState([]);
   const router = useRouter();
 
+  const userType = localStorage.getItem('__ut');
+  const userId = localStorage.getItem('__uid');
+  let signInStatus;
+  if (userType && userId) {
+    signInStatus = 'Out';
+  } else {
+    signInStatus = 'In';
+  }
+
+  const handleSignOrOut = () => {
+    if (userType && userId) {
+      // router.push(`${userType}/${userId}`);
+      localStorage.removeItem('__uid');
+      localStorage.removeItem('__ut');
+      router.push('/');
+    } else {
+      router.push('/login');
+    }
+  };
+
   useEffect(() => {
     const getAllMovies = async () => {
       try {
@@ -24,7 +44,12 @@ const dashboard = () => {
   }, []);
   return (
     <>
-      <Navbar />
+      <Navbar
+        userId={userId}
+        userType={userType}
+        signStatus={signInStatus}
+        signInOrOut={handleSignOrOut}
+      />
       <div className="user_dashboard p-8">
         <div>
           <p>Listed Movies</p>

@@ -14,6 +14,25 @@ const User = () => {
 
   const pathname = usePathname();
   const userId = pathname.split('/').pop();
+  const userType = localStorage.getItem('__ut');
+  //   const userId = localStorage.getItem('__uid');
+  let signInStatus;
+  if (userType && userId) {
+    signInStatus = 'Out';
+  } else {
+    signInStatus = 'In';
+  }
+
+  const handleSignOrOut = () => {
+    if (userType && userId) {
+      // router.push(`${userType}/${userId}`);
+      localStorage.removeItem('__uid');
+      localStorage.removeItem('__ut');
+      router.push('/');
+    } else {
+      router.push('/login');
+    }
+  };
 
   useEffect(() => {
     const getuserData = async () => {
@@ -42,7 +61,12 @@ const User = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar
+        userId={userId}
+        userType={userType}
+        signStatus={signInStatus}
+        signInOrOut={handleSignOrOut}
+      />
       <div>
         <div className="profile_div"></div>
         <div className="bookings_div">

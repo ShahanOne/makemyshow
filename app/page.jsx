@@ -24,17 +24,31 @@ export default function Home() {
     };
     getAllMovies();
   }, []);
+  let signInStatus;
+  if (userType && userId) {
+    signInStatus = 'Out';
+  } else {
+    signInStatus = 'In';
+  }
 
   const handleSignOrOut = () => {
     if (userType && userId) {
-      router.push(`${userType}/${userId}`);
+      // router.push(`${userType}/${userId}`);
+      localStorage.removeItem('__uid');
+      localStorage.removeItem('__ut');
+      router.push('/');
     } else {
       router.push('/login');
     }
   };
   return (
     <>
-      <Navbar signStatus={'In'} signInOrOut={handleSignOrOut} />
+      <Navbar
+        userId={userId}
+        userType={userType}
+        signStatus={signInStatus}
+        signInOrOut={handleSignOrOut}
+      />
       <div className="home p-8">
         <div>
           <p>All Movies</p>

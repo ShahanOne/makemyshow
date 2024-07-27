@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 const dashboard = () => {
   const [listedMovies, setListedMovies] = useState([]);
   const userType = localStorage.getItem('__ut');
+  const userId = localStorage.getItem('__uid');
   let distributerId;
   if (userType === 'distributer') {
     distributerId = localStorage.getItem('__uid');
@@ -36,7 +37,7 @@ const dashboard = () => {
   }, []);
   return (
     <>
-      <Navbar />
+      <Navbar userId={userId} userType={userType} />
       <div className="distributer_dashboard">
         <div>
           <p>Listed Movies</p>

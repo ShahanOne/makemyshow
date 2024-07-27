@@ -28,6 +28,24 @@ const Movie = () => {
   const userType = localStorage.getItem('__ut');
   const userId = localStorage.getItem('__uid');
 
+  let signInStatus;
+  if (userType && userId) {
+    signInStatus = 'Out';
+  } else {
+    signInStatus = 'In';
+  }
+
+  const handleSignOrOut = () => {
+    if (userType && userId) {
+      // router.push(`${userType}/${userId}`);
+      localStorage.removeItem('__uid');
+      localStorage.removeItem('__ut');
+      router.push('/');
+    } else {
+      router.push('/login');
+    }
+  };
+
   useEffect(() => {
     const getMovieData = async () => {
       try {
@@ -105,7 +123,12 @@ const Movie = () => {
   };
   return (
     <>
-      <Navbar />
+      <Navbar
+        userId={userId}
+        userType={userType}
+        signStatus={signInStatus}
+        signInOrOut={handleSignOrOut}
+      />
       <div className="grid grid-cols-3 gap-8 text-gray-700 p-4">
         <div className="col-span-2 rounded shadow p-4 min-h-screen">
           <div className="info_div pt-4">

@@ -1,7 +1,7 @@
 'use client';
 import LoginForm from '../../components/LoginForm';
 import { useState } from 'react';
-const Register = () => {
+const Login = () => {
   return (
     <div>
       <LoginForm />
@@ -9,4 +9,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
