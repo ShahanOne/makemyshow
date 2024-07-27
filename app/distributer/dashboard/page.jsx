@@ -3,13 +3,15 @@ import Navbar from '../../../components/Navbar';
 import MovieCard from '../../../components/MovieCard';
 import React, { useEffect, useState } from 'react';
 
-const dashboard = () => {
+const Dashboard = () => {
   const [listedMovies, setListedMovies] = useState([]);
-  const userType = localStorage.getItem('__ut');
-  const userId = localStorage.getItem('__uid');
+  const userType =
+    typeof window !== 'undefined' && localStorage.getItem('__ut');
+  const userId = typeof window !== 'undefined' && localStorage.getItem('__uid');
   let distributerId;
   if (userType === 'distributer') {
-    distributerId = localStorage.getItem('__uid');
+    distributerId =
+      typeof window !== 'undefined' && localStorage.getItem('__uid');
   }
   useEffect(() => {
     const getAllMovies = async () => {
@@ -60,4 +62,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Dashboard;

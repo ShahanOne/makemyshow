@@ -7,8 +7,9 @@ import Navbar from '../components/Navbar';
 export default function Home() {
   const [allMovies, setAllMovies] = useState([]);
   const router = useRouter();
-  const userType = localStorage.getItem('__ut');
-  const userId = localStorage.getItem('__uid');
+  const userType =
+    typeof window !== 'undefined' && localStorage.getItem('__ut');
+  const userId = typeof window !== 'undefined' && localStorage.getItem('__uid');
 
   useEffect(() => {
     const getAllMovies = async () => {
@@ -34,8 +35,8 @@ export default function Home() {
   const handleSignOrOut = () => {
     if (userType && userId) {
       // router.push(`${userType}/${userId}`);
-      localStorage.removeItem('__uid');
-      localStorage.removeItem('__ut');
+      typeof window !== 'undefined' && localStorage.removeItem('__uid');
+      typeof window !== 'undefined' && localStorage.removeItem('__ut');
       router.push('/');
     } else {
       router.push('/login');

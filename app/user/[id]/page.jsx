@@ -14,8 +14,9 @@ const User = () => {
 
   const pathname = usePathname();
   const userId = pathname.split('/').pop();
-  const userType = localStorage.getItem('__ut');
-  //   const userId = localStorage.getItem('__uid');
+  const userType =
+    typeof window !== 'undefined' && localStorage.getItem('__ut');
+  //   const userId = typeof window !== 'undefined' && localStorage.getItem('__uid');
   let signInStatus;
   if (userType && userId) {
     signInStatus = 'Out';
@@ -26,8 +27,8 @@ const User = () => {
   const handleSignOrOut = () => {
     if (userType && userId) {
       // router.push(`${userType}/${userId}`);
-      localStorage.removeItem('__uid');
-      localStorage.removeItem('__ut');
+      typeof window !== 'undefined' && localStorage.removeItem('__uid');
+      typeof window !== 'undefined' && localStorage.removeItem('__ut');
       router.push('/');
     } else {
       router.push('/login');
@@ -73,7 +74,7 @@ const User = () => {
           <p>My Bookings</p>
           <div className="grid grid-cols-4 gap-4">
             {userData?.boughtTickets?.map((ticket, index) => (
-              <TicketCard movie={ticket.movie} />
+              <TicketCard key={index} movie={ticket.movie} />
             ))}
           </div>
         </div>

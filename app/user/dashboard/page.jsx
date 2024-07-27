@@ -4,12 +4,13 @@ import MovieCard from '../../../components/MovieCard';
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../../components/Navbar';
 
-const dashboard = () => {
+const Dashboard = () => {
   const [allMovies, setAllMovies] = useState([]);
   const router = useRouter();
 
-  const userType = localStorage.getItem('__ut');
-  const userId = localStorage.getItem('__uid');
+  const userType =
+    typeof window !== 'undefined' && localStorage.getItem('__ut');
+  const userId = typeof window !== 'undefined' && localStorage.getItem('__uid');
   let signInStatus;
   if (userType && userId) {
     signInStatus = 'Out';
@@ -20,8 +21,8 @@ const dashboard = () => {
   const handleSignOrOut = () => {
     if (userType && userId) {
       // router.push(`${userType}/${userId}`);
-      localStorage.removeItem('__uid');
-      localStorage.removeItem('__ut');
+      typeof window !== 'undefined' && localStorage.removeItem('__uid');
+      typeof window !== 'undefined' && localStorage.removeItem('__ut');
       router.push('/');
     } else {
       router.push('/login');
@@ -74,4 +75,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Dashboard;

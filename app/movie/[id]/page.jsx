@@ -25,8 +25,9 @@ const Movie = () => {
 
   const pathname = usePathname();
   const movieId = pathname.split('/').pop();
-  const userType = localStorage.getItem('__ut');
-  const userId = localStorage.getItem('__uid');
+  const userType =
+    typeof window !== 'undefined' && localStorage.getItem('__ut');
+  const userId = typeof window !== 'undefined' && localStorage.getItem('__uid');
 
   let signInStatus;
   if (userType && userId) {
@@ -38,8 +39,8 @@ const Movie = () => {
   const handleSignOrOut = () => {
     if (userType && userId) {
       // router.push(`${userType}/${userId}`);
-      localStorage.removeItem('__uid');
-      localStorage.removeItem('__ut');
+      typeof window !== 'undefined' && localStorage.removeItem('__uid');
+      typeof window !== 'undefined' && localStorage.removeItem('__ut');
       router.push('/');
     } else {
       router.push('/login');
@@ -207,6 +208,7 @@ const Movie = () => {
               {movieData?.reviews.length > 0 &&
                 movieData?.reviews?.map((review, index) => (
                   <ReviewCard
+                    key={index}
                     user={review.user}
                     stars={review.stars}
                     review={review.review}

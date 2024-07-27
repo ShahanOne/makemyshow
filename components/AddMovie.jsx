@@ -14,10 +14,12 @@ const AddMovie = () => {
   const [uploadStatus, setUploadStatus] = useState(false);
 
   const router = useRouter();
-  const userType = localStorage.getItem('__ut');
+  const userType =
+    typeof window !== 'undefined' && localStorage.getItem('__ut');
   let distributerId;
   if (userType === 'distributer') {
-    distributerId = localStorage.getItem('__uid');
+    distributerId =
+      typeof window !== 'undefined' && localStorage.getItem('__uid');
   }
 
   const uploadImage = async () => {

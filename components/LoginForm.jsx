@@ -31,9 +31,11 @@ const LoginForm = () => {
         .then((res) => res.json())
         .then((data) => {
           if (data[userType]) {
-            localStorage.setItem('__ut', userType);
-            // localStorage.setItem('__uid',token from response)
-            localStorage.setItem('__uid', data[userType]._id);
+            typeof window !== 'undefined' &&
+              localStorage.setItem('__ut', userType);
+            // typeof window !== 'undefined' && localStorage.setItem('__uid',token from response)
+            typeof window !== 'undefined' &&
+              localStorage.setItem('__uid', data[userType]._id);
             router.push(`/${userType}/dashboard`);
           } else {
             toast.error('User not found, please Register or try again');
