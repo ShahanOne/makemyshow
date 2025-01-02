@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
-import mongoose from 'mongoose';
 import { connectDB } from '../../../utils/db';
 import Movie from '../../../lib/models/movie';
-import Distributer from '../../../lib/models/distributer';
 connectDB();
 
 export async function GET() {

@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '../../../../utils/db';
-import Movie from '../../../../lib/models/movie';
 import Distributer from '../../../../lib/models/distributer';
 
 let isConnected = false;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
@@ -9,8 +9,8 @@ const AddMovie = () => {
   const [releaseDate, setReleaseDate] = useState();
   const [poster, setPoster] = useState();
   const [posterUrl, setPosterUrl] = useState();
+  const [customPosterUrl, setCustomPosterUrl] = useState();
   const [availableFor, setAvailableFor] = useState();
-
   const [uploadStatus, setUploadStatus] = useState(false);
 
   const router = useRouter();
@@ -28,25 +28,21 @@ const AddMovie = () => {
     data.append('upload_preset', 'poster_upload');
     data.append('cloud_name', 'dimzcf9j8');
 
-    const res = await fetch(
-      `https://api.cloudinary.com/v1_1/${'dimzcf9j8'}/image/upload`,
-      {
-        method: 'post',
-        body: data,
-      }
-    )
+    await fetch(`https://api.cloudinary.com/v1_1/${'dimzcf9j8'}/image/upload`, {
+      method: 'post',
+      body: data,
+    })
       .then((resp) => resp.json())
       .then((data) => {
         setPosterUrl(data.url);
         setUploadStatus(true);
-        toast.success('poster uploaded');
+        toast.success('Poster uploaded');
       });
   };
-  // console.log(posterUrl);
 
   const addMovie = async () => {
     try {
-      const res = await fetch('/api/movies', {
+      await fetch('/api/movies', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -73,83 +69,144 @@ const AddMovie = () => {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    setPosterUrl(customPosterUrl);
+  }, [customPosterUrl]);
+
   return (
-    <div className="p-4 flex flex-col">
-      <div>
-        <label htmlFor="name">Name</label>
+    <div className="p-8 bg-gray-100 rounded-lg shadow-lg">
+      <h1 className="text-3xl text-center mb-6">Add Movie</h1>
+
+      <div className="mb-6">
+        <label
+          htmlFor="name"
+          className="block text-gray-800 font-semibold mb-1"
+        >
+          Name
+        </label>
         <input
-          className="rounded p-2 bg-orange-100 text-amber-700 outline-none m-2"
+          className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
           value={name}
           onChange={(e) => setName(e.target.value)}
           id="name"
+          placeholder="Enter movie name"
         />
       </div>
-      <div>
-        <label htmlFor="duration">Duration in minutes</label>
+
+      <div className="mb-6">
+        <label
+          htmlFor="duration"
+          className="block text-gray-800 font-semibold mb-1"
+        >
+          Duration (minutes)
+        </label>
         <input
-          className="rounded p-2 bg-orange-100 text-amber-700 outline-none m-2"
+          className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
           value={duration}
           type="number"
           onChange={(e) => setDuration(e.target.value)}
           id="duration"
+          placeholder="Enter duration"
         />
-      </div>{' '}
-      <div>
-        <label htmlFor="ticketNumber">Number of Tickets</label>
+      </div>
+
+      <div className="mb-6">
+        <label
+          htmlFor="ticketNumber"
+          className="block text-gray-800 font-semibold mb-1"
+        >
+          Number of Tickets
+        </label>
         <input
-          className="rounded p-2 bg-orange-100 text-amber-700 outline-none m-2"
+          className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
           value={numberOfTickets}
           type="number"
           onChange={(e) => setNumberOfTickets(e.target.value)}
           id="ticketNumber"
+          placeholder="Enter number of tickets"
         />
-      </div>{' '}
-      <div>
-        <label htmlFor="releaseDate">Date of Release</label>
+      </div>
+
+      <div className="mb-6">
+        <label
+          htmlFor="releaseDate"
+          className="block text-gray-800 font-semibold mb-1"
+        >
+          Release Date
+        </label>
         <input
-          className="rounded p-2 bg-orange-100 text-amber-700 outline-none m-2"
+          className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
           type="date"
           value={releaseDate}
           onChange={(e) => setReleaseDate(e.target.value)}
           id="releaseDate"
         />
       </div>
-      <div>
-        <label htmlFor="availableFor">Movie in Theaters for (in Days)</label>
+
+      <div className="mb-6">
+        <label
+          htmlFor="availableFor"
+          className="block text-gray-800 font-semibold mb-1"
+        >
+          Available for (Days)
+        </label>
         <input
-          className="rounded p-2 bg-orange-100 text-amber-700 outline-none m-2"
+          className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
           value={availableFor}
           type="number"
           onChange={(e) => setAvailableFor(e.target.value)}
           id="availableFor"
+          placeholder="Enter available days"
         />
       </div>
-      <div>
-        {' '}
-        <label htmlFor="poster">Poster</label>
+
+      <div className="mb-6">
+        <label
+          htmlFor="poster"
+          className="block text-gray-800 font-semibold mb-1"
+        >
+          Poster
+        </label>
         <input
-          className="rounded p-2 bg-orange-100 text-amber-700 outline-none m-2"
+          className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
           type="file"
+          disabled={customPosterUrl}
           accept="image/png, image/jpeg,image/jpg,image/webp"
           onChange={(e) => setPoster(e.target.files[0])}
           id="poster"
         />
+        <div className="flex justify-center py-4">
+          <p>OR</p>
+        </div>
+        <input
+          className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+          value={posterUrl}
+          disabled={posterUrl}
+          onChange={(e) => setCustomPosterUrl(e.target.value)}
+          id="posterurl"
+          placeholder="Enter poster url"
+        />
       </div>
+
       <button
         onClick={() =>
-          poster ? uploadImage() : toast.info('please choose a file first')
+          poster ? uploadImage() : toast.info('Please choose a file first')
         }
         disabled={uploadStatus}
-        className="bg-orange-400 text-white px-4 py-2 rounded"
+        className={`w-full py-3 mb-4 rounded-lg text-white ${
+          uploadStatus ? 'bg-green-600' : 'bg-pink-500 hover:bg-pink-600'
+        } focus:outline-none focus:ring focus:ring-blue-300`}
       >
-        {uploadStatus ? 'Uploaded' : 'Upload'}
+        {uploadStatus ? 'Poster Uploaded' : 'Upload Poster'}
       </button>
+
       <button
         onClick={() => addMovie()}
-        disabled={!uploadStatus}
-        className="bg-orange-400 text-white px-4 py-2 rounded"
+        // disabled={!uploadStatus}
+        className="w-full py-3 rounded-lg bg-[#EF5A6F] text-white hover:bg-orange-600 focus:outline-none focus:ring focus:ring-orange-300"
       >
-        Add
+        Add Movie
       </button>
     </div>
   );

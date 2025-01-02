@@ -12,9 +12,9 @@ const MovieCard = ({
   //   availableFor,
 }) => {
   return (
-    <div className="card rounded-lg shadow-lg cursor-pointer">
+    <div className="card rounded-lg shadow-lg cursor-pointer p-2 bg-gray-300">
       <img
-        className="h-48 w-full rounded-lg"
+        className="h-48 w-full rounded-lg my-2"
         src={poster}
         alt="poster"
         //   width={200} height={100}

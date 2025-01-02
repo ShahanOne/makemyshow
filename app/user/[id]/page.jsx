@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
@@ -11,7 +11,7 @@ const User = () => {
     name: '',
     boughtTickets: [],
   });
-
+  const router = useRouter();
   const pathname = usePathname();
   const userId = pathname.split('/').pop();
   const userType =

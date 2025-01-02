@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '../../../../utils/db';
 import Movie from '../../../../lib/models/movie';
-import Review from '../../../../lib/models/review';
-import User from '../../../../lib/models/user';
-import Distributer from '../../../../lib/models/distributer';
 
 let isConnected = false;
 if (!isConnected) {

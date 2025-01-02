@@ -30,7 +30,7 @@ export async function POST(req) {
 
     return NextResponse.json({ status: 200, distributer: foundDistributer });
   } catch (error) {
-    console.log(err);
+    console.log(error);
     return NextResponse.json({
       status: 500,
       message: 'Error logging User',
