@@ -1,4 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
+import {distributerSchema} from './distributer'
+import { reviewSchema } from './review';
 export const movieSchema = new mongoose.Schema({
   name: { type: String, required: true },
   duration: Number,

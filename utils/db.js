@@ -1,4 +1,9 @@
 import mongoose from 'mongoose';
+import { movieSchema } from '../lib/models/movie';
+import { ticketSchema } from '../lib/models/ticket';
+import { distributerSchema } from '../lib/models/distributer';
+import { userSchema } from '../lib/models/user';
+import { reviewSchema } from '../lib/models/review';
 
 export const connectDB = async () => {
   try {

@@ -1,21 +1,41 @@
 'use client';
 import ReviewCard from '../../../components/ReviewCard';
 import React, { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import { Modal } from 'antd';
 import formatDate from '../../../lib/functions/formatDate';
+
+interface MovieData {
+  name: string;
+  releaseDate: string;
+  poster: string;
+  duration: string;
+  availableFor: string;
+  distributer: {
+    username: string;
+  } | null;
+  reviews: Review[];
+  description: string;
+}
+
+interface Review {
+  user: string;
+  stars: number;
+  review: string;
+}
+
 const Movie = () => {
-  const [movieData, setMovieData] = useState({
+  const [movieData, setMovieData] = useState<MovieData>({
     name: '',
     releaseDate: '',
     poster: '',
     duration: '',
     availableFor: '',
-    distributer: '',
-    reviews: '',
+    distributer: null,
+    reviews: [],
     description: '',
   });
   const [review, setReview] = useState('');
@@ -23,6 +43,7 @@ const Movie = () => {
 
   const [openBuyModal, setOpenBuyModal] = useState(false);
 
+  const router = useRouter();
   const pathname = usePathname();
   const movieId = pathname.split('/').pop();
   const userType =

@@ -1,6 +1,16 @@
 import Image from 'next/image';
 import React from 'react';
 import formatDate from '../lib/functions/formatDate';
+
+interface MovieCardProps {
+  name: string;
+  poster: string;
+  duration: string;
+  releaseDate: any;
+  numberOfTickets: number;
+  book?: () => void;
+  info?: () => void;
+}
 const MovieCard = ({
   name,
   duration,
@@ -9,8 +19,8 @@ const MovieCard = ({
   poster,
   book,
   info,
-  //   availableFor,
-}) => {
+}: //   availableFor,
+MovieCardProps) => {
   return (
     <div className="card rounded-lg shadow-lg cursor-pointer p-2 bg-gray-300">
       <img

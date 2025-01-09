@@ -1,5 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
-const userSchema = new mongoose.Schema({
+import { movieSchema } from './movie';
+import { ticketSchema } from './ticket';
+export const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '../../../../utils/db.js';
-import Movie from '../../../../lib/models/movie.js';
+import Movie from '../../../../lib/models/movie';
 connectDB();
 
 export async function POST(req) {

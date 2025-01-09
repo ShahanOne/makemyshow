@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import { movieSchema } from './movie';
-const distributerSchema = new mongoose.Schema({
+export const distributerSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,

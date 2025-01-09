@@ -1,32 +1,29 @@
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
-const RegisterForm = () => {
-  const [username, setUsername] = useState('');
+const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [userType, setUserType] = useState();
-
+  const [userType, setUserType] = useState<string | undefined>();
   const router = useRouter();
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const isValidEmail = emailRegex.test(email);
 
-  const register = async () => {
-    if (password !== confirmPassword || !isValidEmail) {
+  const login = async () => {
+    if (!isValidEmail) {
       return;
     }
     try {
-      const res = await fetch(`/api/${userType}/register`, {
+      const res = await fetch(`/api/${userType}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify([
           {
-            username: username,
             email: email,
             password: password,
           },
@@ -42,7 +39,7 @@ const RegisterForm = () => {
               localStorage.setItem('__uid', data[userType]._id);
             router.push(`/${userType}/dashboard`);
           } else {
-            toast.error('Error trying to Register, Please try again');
+            toast.error('User not found, please Register or try again');
           }
         });
     } catch (err) {
@@ -70,16 +67,6 @@ const RegisterForm = () => {
         </button>
       </div>
       <div>
-        {' '}
-        <label htmlFor="username">Create Username</label>
-        <input
-          className="rounded p-2 text-amber-700 outline-none m-2"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          id="username"
-        />
-      </div>
-      <div>
         <label htmlFor="email">Email</label>
         <input
           className="rounded p-2 text-amber-700 outline-none m-2"
@@ -90,7 +77,7 @@ const RegisterForm = () => {
       </div>
       <div>
         {' '}
-        <label htmlFor="password">Create Password</label>
+        <label htmlFor="password">Password</label>
         <input
           className="rounded p-2 text-amber-700 outline-none m-2"
           value={password}
@@ -100,25 +87,14 @@ const RegisterForm = () => {
         />
       </div>
 
-      <div>
-        <label htmlFor="confirm-password">Confirm Password</label>
-        <input
-          className="rounded p-2 text-amber-700 outline-none m-2"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          type="password"
-          id="confirm-password"
-        />
-      </div>
-
       <button
-        onClick={() => register()}
+        onClick={() => login()}
         className="bg-orange-400 text-white px-4 py-2 rounded"
       >
-        Register
+        Login
       </button>
     </div>
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

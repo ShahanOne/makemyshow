@@ -3,15 +3,15 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 const AddMovie = () => {
-  const [name, setName] = useState('');
-  const [duration, setDuration] = useState();
-  const [numberOfTickets, setNumberOfTickets] = useState();
-  const [releaseDate, setReleaseDate] = useState();
-  const [poster, setPoster] = useState();
-  const [posterUrl, setPosterUrl] = useState();
-  const [customPosterUrl, setCustomPosterUrl] = useState();
-  const [availableFor, setAvailableFor] = useState();
-  const [uploadStatus, setUploadStatus] = useState(false);
+  const [name, setName] = useState<string>('');
+  const [duration, setDuration] = useState<number | undefined>();
+  const [numberOfTickets, setNumberOfTickets] = useState<number | undefined>();
+  const [releaseDate, setReleaseDate] = useState<string>('');
+  const [poster, setPoster] = useState<File | null>(null);
+  const [posterUrl, setPosterUrl] = useState<string>('');
+  const [customPosterUrl, setCustomPosterUrl] = useState<string>('');
+  const [availableFor, setAvailableFor] = useState<number | undefined>();
+  const [uploadStatus, setUploadStatus] = useState<boolean>(false);
 
   const router = useRouter();
   const userType =
@@ -105,7 +105,7 @@ const AddMovie = () => {
           className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
           value={duration}
           type="number"
-          onChange={(e) => setDuration(e.target.value)}
+          onChange={(e) => setDuration(parseInt(e.target.value))}
           id="duration"
           placeholder="Enter duration"
         />
@@ -122,7 +122,7 @@ const AddMovie = () => {
           className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
           value={numberOfTickets}
           type="number"
-          onChange={(e) => setNumberOfTickets(e.target.value)}
+          onChange={(e) => setNumberOfTickets(parseInt(e.target.value))}
           id="ticketNumber"
           placeholder="Enter number of tickets"
         />
@@ -155,7 +155,7 @@ const AddMovie = () => {
           className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
           value={availableFor}
           type="number"
-          onChange={(e) => setAvailableFor(e.target.value)}
+          onChange={(e) => setAvailableFor(parseInt(e.target.value))}
           id="availableFor"
           placeholder="Enter available days"
         />
@@ -171,7 +171,7 @@ const AddMovie = () => {
         <input
           className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
           type="file"
-          disabled={customPosterUrl}
+          disabled={!!customPosterUrl}
           accept="image/png, image/jpeg,image/jpg,image/webp"
           onChange={(e) => setPoster(e.target.files[0])}
           id="poster"
@@ -182,7 +182,7 @@ const AddMovie = () => {
         <input
           className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
           value={posterUrl}
-          disabled={posterUrl}
+          disabled={!!posterUrl}
           onChange={(e) => setCustomPosterUrl(e.target.value)}
           id="posterurl"
           placeholder="Enter poster url"

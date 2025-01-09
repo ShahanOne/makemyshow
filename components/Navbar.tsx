@@ -2,6 +2,16 @@
 
 import { useRouter } from 'next/navigation';
 
+interface NavbarProps {
+  mode?: string;
+  changeTheme?: boolean;
+  theme?: string;
+  userType?: string;
+  userId?: string;
+  signStatus?: string;
+  signInOrOut?: () => void;
+}
+
 const Navbar = ({
   mode,
   changeTheme,
@@ -10,7 +20,7 @@ const Navbar = ({
   userId,
   signStatus,
   signInOrOut,
-}) => {
+}: NavbarProps) => {
   const router = useRouter();
   return (
     <div className="flex flex-col md:flex-row justify-between bg-[#EF5A6F] text-white px-6 py-8 ">
