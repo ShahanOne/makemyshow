@@ -9,6 +9,7 @@ export const movieSchema = new mongoose.Schema({
   releaseDate: { type: Date, required: true },
   poster: String, //url
   reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
+  isTrending:Boolean,
   description: String,
   availableFor: Number, //number of days
 });

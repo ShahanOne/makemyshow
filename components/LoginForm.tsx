@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
@@ -14,6 +13,11 @@ const LoginForm = () => {
 
   const login = async () => {
     if (!isValidEmail) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+    if (!userType) {
+      toast.error('Please select the user type');
       return;
     }
     try {
@@ -34,7 +38,6 @@ const LoginForm = () => {
           if (data[userType]) {
             typeof window !== 'undefined' &&
               localStorage.setItem('__ut', userType);
-            // typeof window !== 'undefined' && localStorage.setItem('__uid',token from response)
             typeof window !== 'undefined' &&
               localStorage.setItem('__uid', data[userType]._id);
             router.push(`/${userType}/dashboard`);
@@ -43,56 +46,87 @@ const LoginForm = () => {
           }
         });
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      toast.error('Something went wrong, please try again later');
     }
   };
-  return (
-    <div className="p-4 flex flex-col">
-      <div className="flex justify-center gap-4">
-        <button
-          onClick={() => setUserType('distributer')}
-          className={` px-4 py-2 rounded ${
-            userType === 'distributer' ? 'bg-red-400' : 'bg-purple-500'
-          }`}
-        >
-          Distributer
-        </button>
-        <button
-          onClick={() => setUserType('user')}
-          className={`bg-purple-500 px-4 py-2 rounded ${
-            userType === 'user' ? 'bg-red-400' : 'bg-purple-500'
-          }`}
-        >
-          User
-        </button>
-      </div>
-      <div>
-        <label htmlFor="email">Email</label>
-        <input
-          className="rounded p-2 text-amber-700 outline-none m-2"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          id="email"
-        />
-      </div>
-      <div>
-        {' '}
-        <label htmlFor="password">Password</label>
-        <input
-          className="rounded p-2 text-amber-700 outline-none m-2"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          id="password"
-        />
-      </div>
 
-      <button
-        onClick={() => login()}
-        className="bg-orange-400 text-white px-4 py-2 rounded"
-      >
-        Login
-      </button>
+  return (
+    <div className="min-h-screen bg-gradient-to-r from-indigo-300 to-orange-300 flex items-center justify-center">
+      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
+          Login
+        </h2>
+        <div className="flex justify-center gap-4 mb-6">
+          <button
+            onClick={() => setUserType('distributer')}
+            className={`px-6 py-2 rounded-full font-medium text-sm transition-colors ${
+              userType === 'distributer'
+                ? 'bg-red-500 text-white'
+                : 'bg-gray-200 text-gray-700'
+            }`}
+          >
+            Distributer
+          </button>
+          <button
+            onClick={() => setUserType('user')}
+            className={`px-6 py-2 rounded-full font-medium text-sm transition-colors ${
+              userType === 'user'
+                ? 'bg-red-500 text-white'
+                : 'bg-gray-200 text-gray-700'
+            }`}
+          >
+            User
+          </button>
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="email"
+            className="block text-gray-700 font-medium mb-2"
+          >
+            Email
+          </label>
+          <input
+            className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-sky-500"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            id="email"
+            type="email"
+            placeholder="Enter your email"
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="password"
+            className="block text-gray-700 font-medium mb-2"
+          >
+            Password
+          </label>
+          <input
+            className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-sky-500"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+          />
+        </div>
+        <button
+          onClick={() => login()}
+          className="w-full bg-sky-500 hover:bg-sky-600 transition duration-200 ease-in-out text-white font-medium py-3 rounded-lg transition-colors"
+        >
+          Login
+        </button>
+        <p className="text-center text-gray-500 mt-4">
+          Don't have an account?{' '}
+          <a
+            href="/register"
+            className="text-sky-500 hover:underline font-medium transition duration-200 ease-in-out"
+          >
+            Register
+          </a>
+        </p>
+      </div>
     </div>
   );
 };

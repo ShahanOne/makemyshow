@@ -22,15 +22,10 @@ const MovieCard = ({
 }: //   availableFor,
 MovieCardProps) => {
   return (
-    <div className="card rounded-lg shadow-lg cursor-pointer p-2 bg-gray-300">
-      <img
-        className="h-48 w-full rounded-lg my-2"
-        src={poster}
-        alt="poster"
-        //   width={200} height={100}
-      />
-      <div className="hover:bg-[#EF5A6F] rounded-lg">
-        <div className="bg-slate-100 hover:bg-[#EF5A6F] rounded-lg p-2 text-sm hover:text-white">
+    <div className="card bg-red-500 rounded-lg shadow-lg cursor-pointer ">
+      <img className="h-52 w-full rounded-lg mb-2" src={poster} alt="poster" />
+      <div className="bg-slate-50 flex items-center rounded-lg h-32">
+        <div className="w-full p-2 text-sm ">
           <div className="flex justify-between">
             <p>
               Title: <b>{name}</b>
@@ -45,20 +40,20 @@ MovieCardProps) => {
             </p>
             <p>Tickets remaining: {numberOfTickets}</p>
           </div>
-        </div>
-        <div className="flex justify-between gap-4 p-2 hover:hover:bg-[#EF5A6F] rounded-lg">
-          <button
-            className="bg-slate-200 hover:bg-pink-500 w-full rounded-lg shadow hover:text-white"
-            onClick={() => info()}
-          >
-            Info
-          </button>
-          <button
-            className="bg-slate-200 hover:bg-pink-500 w-full rounded-lg shadow hover:text-white"
-            onClick={() => book()}
-          >
-            Book
-          </button>
+          <div className="flex justify-between gap-4 p-2">
+            <button
+              className="bg-sky-500 w-full rounded-lg shadow text-white"
+              onClick={() => info()}
+            >
+              Info
+            </button>
+            <button
+              className="bg-sky-500 w-full rounded-lg shadow text-white"
+              onClick={() => book()}
+            >
+              Book
+            </button>
+          </div>
         </div>
       </div>
     </div>

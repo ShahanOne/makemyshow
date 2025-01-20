@@ -51,73 +51,97 @@ const RegisterForm = () => {
     }
   };
   return (
-    <div className="p-4 flex flex-col">
-      <div className="flex justify-center gap-4">
+    <div className="min-h-screen bg-gradient-to-r from-indigo-300 to-orange-300 flex items-center justify-center">
+      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
+          Register
+        </h2>
+        <div className="flex justify-center gap-4 mb-6">
+          <button
+            onClick={() => setUserType('distributer')}
+            className={`px-6 py-2 rounded-full font-medium text-sm transition-colors ${
+              userType === 'distributer'
+                ? 'bg-red-500 text-white'
+                : 'bg-gray-200 text-gray-700'
+            }`}
+          >
+            Distributer
+          </button>
+          <button
+            onClick={() => setUserType('user')}
+            className={`px-6 py-2 rounded-full font-medium text-sm transition-colors ${
+              userType === 'user'
+                ? 'bg-red-500 text-white'
+                : 'bg-gray-200 text-gray-700'
+            }`}
+          >
+            User
+          </button>
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="email"
+            className="block text-gray-700 font-medium mb-2"
+          >
+            Email
+          </label>
+          <input
+            className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            id="email"
+            type="email"
+            placeholder="Enter your email"
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="password"
+            className="block text-gray-700 font-medium mb-2"
+          >
+            Create Password
+          </label>
+          <input
+            className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="password"
+            className="block text-gray-700 font-medium mb-2"
+          >
+            Confirm Password
+          </label>
+          <input
+            className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
+            value={password}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+          />
+        </div>
         <button
-          onClick={() => setUserType('distributer')}
-          className={` px-4 py-2 rounded ${
-            userType === 'distributer' ? 'bg-red-400' : 'bg-purple-500'
-          }`}
+          onClick={() => register()}
+          className="w-full bg-indigo-500 hover:bg-indigo-600 transition duration-200 ease-in-out text-white font-medium py-3 rounded-lg transition-colors"
         >
-          Distributer
+          Register
         </button>
-        <button
-          onClick={() => setUserType('user')}
-          className={`bg-purple-500 px-4 py-2 rounded ${
-            userType === 'user' ? 'bg-red-400' : 'bg-purple-500'
-          }`}
-        >
-          User
-        </button>
+        <p className="text-center text-gray-500 mt-4">
+          Already have an account?{' '}
+          <a
+            href="/login"
+            className="text-indigo-500 hover:underline transition duration-200 ease-in-out font-medium"
+          >
+            Login
+          </a>
+        </p>
       </div>
-      <div>
-        {' '}
-        <label htmlFor="username">Create Username</label>
-        <input
-          className="rounded p-2 text-amber-700 outline-none m-2"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          id="username"
-        />
-      </div>
-      <div>
-        <label htmlFor="email">Email</label>
-        <input
-          className="rounded p-2 text-amber-700 outline-none m-2"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          id="email"
-        />
-      </div>
-      <div>
-        {' '}
-        <label htmlFor="password">Create Password</label>
-        <input
-          className="rounded p-2 text-amber-700 outline-none m-2"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          id="password"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="confirm-password">Confirm Password</label>
-        <input
-          className="rounded p-2 text-amber-700 outline-none m-2"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          type="password"
-          id="confirm-password"
-        />
-      </div>
-
-      <button
-        onClick={() => register()}
-        className="bg-orange-400 text-white px-4 py-2 rounded"
-      >
-        Register
-      </button>
     </div>
   );
 };

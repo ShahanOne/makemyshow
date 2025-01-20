@@ -2,9 +2,14 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <div className=" text-lg text-center w-full bg-[#EF5A6F] text-white p-8">
-      2024 Make my Show
-    </div>
+    <footer className="w-full bg-red-500 text-white py-6">
+      <div className="container mx-auto text-center">
+        <p className="text-lg font-medium">
+          © 2024 <span className="font-bold">Make My Show</span>. <br /> All
+          rights reserved.
+        </p>
+      </div>
+    </footer>
   );
 };
 

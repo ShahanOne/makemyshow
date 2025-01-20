@@ -151,62 +151,76 @@ const Movie = () => {
         signStatus={signInStatus}
         signInOrOut={handleSignOrOut}
       />
-      <div className="grid grid-cols-3 gap-8 text-gray-700 p-4">
-        <div className="col-span-2 rounded shadow p-4 min-h-screen">
-          <div className="info_div pt-4">
-            <p className="text-2xl">{movieData?.name}</p>
-            <div className="grid grid-cols-2 py-4 gap-2">
-              <p className="text-sm">
+      <div className="grid grid-cols-3 gap-8 text-gray-700 p-4 bg-gradient-to-r from-indigo-300 to-orange-300">
+        <div className="col-span-2 rounded-lg bg-white shadow-lg p-6 min-h-screen">
+          {/* Movie Info Section */}
+          <div className="info_div">
+            <p className="text-3xl font-semibold text-gray-800">
+              {movieData?.name}
+            </p>
+            <div className="grid grid-cols-2 py-6 gap-4">
+              <p className="text-sm font-medium text-gray-600">
                 Release Date:{' '}
-                <span className="text-base">
+                <span className="text-base font-semibold text-gray-800">
                   {formatDate(movieData?.releaseDate)}
                 </span>
-              </p>{' '}
-              <p className="text-sm">
+              </p>
+              <p className="text-sm font-medium text-gray-600">
                 Duration:{' '}
-                <span className="text-base">{movieData?.duration} minutes</span>{' '}
-              </p>{' '}
-              <p className="text-sm">
-                Distributer/Studio:{' '}
-                <span className="text-base">
+                <span className="text-base font-semibold text-gray-800">
+                  {movieData?.duration} minutes
+                </span>
+              </p>
+              <p className="text-sm font-medium text-gray-600">
+                Distributor/Studio:{' '}
+                <span className="text-base font-semibold text-gray-800">
                   {movieData?.distributer?.username}
                 </span>
-              </p>{' '}
-              <p className="text-sm">
-                Expiring In :{' '}
-                <span className="text-base">
+              </p>
+              <p className="text-sm font-medium text-gray-600">
+                Expiring In:{' '}
+                <span className="text-base font-semibold text-gray-800">
                   {movieData?.availableFor} Days
                 </span>
               </p>
             </div>
-            <div className="">
-              <p className="text-lg">Description :</p>
-              <p className="italic text-sm pt-4">
+            <div className="py-4">
+              <p className="text-lg font-semibold text-gray-800">
+                Description:
+              </p>
+              <p className="italic text-sm text-gray-600 pt-2">
                 {movieData?.description?.length > 0
                   ? movieData?.description
                   : 'No description provided.'}
               </p>
             </div>
           </div>
-          <div className="reviews_div pt-4">
-            <div className="py-4 rounded-lg shadow px-2 bg-pink-100">
-              <p className="italic">Watched the movie? Post a review. </p>
-              <p className="py-2 text-sm">
-                Stars:{' '}
-                {[1, 2, 3, 4, 5].map((index) => (
-                  <span
-                    key={index}
-                    className={`cursor-pointer text-yellow-400 text-xl`}
-                    onClick={() => handleStarClick(index)}
-                  >
-                    {index <= stars ? '★' : '☆'}
-                  </span>
-                ))}
+
+          {/* Reviews Section */}
+          <div className="reviews_div pt-6">
+            <div className="bg-pink-50 border border-pink-200 rounded-lg shadow-sm p-4">
+              <p className="italic text-gray-700">
+                Watched the movie? Post a review.
               </p>
-              <div className="flex gap-2">
+              <div className="py-2">
+                <p className="text-sm text-gray-600 font-medium">Stars:</p>
+                <div className="flex gap-1 mt-1">
+                  {[1, 2, 3, 4, 5].map((index) => (
+                    <span
+                      key={index}
+                      className={`cursor-pointer text-yellow-400 text-2xl`}
+                      onClick={() => handleStarClick(index)}
+                    >
+                      {index <= stars ? '★' : '☆'}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="flex items-center gap-3 mt-3">
                 <textarea
                   rows={1}
-                  className="w-full outline-none rounded-lg px-2 py-1"
+                  placeholder="Write your review..."
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:ring focus:ring-pink-300 text-sm"
                   value={review}
                   onChange={(e) => setReview(e.target.value)}
                 />
@@ -215,18 +229,19 @@ const Movie = () => {
                     userType === 'user'
                       ? stars > 0 && review.length
                         ? postReview()
-                        : toast.info('Please select stars and enter review')
-                      : toast.error('Distributers cannot post reviews!');
+                        : toast.info('Please select stars and enter a review')
+                      : toast.error('Distributors cannot post reviews!');
                   }}
-                  className="rounded-xl shadow-lg px-2 py-1 text-white bg-[#EF5A6F] hover:bg-[#fa5d72]"
+                  className="rounded-lg shadow-md px-4 py-2 text-white bg-pink-500 hover:bg-pink-400 transition duration-200 ease-in-out"
                 >
-                  post
+                  Post
                 </button>
               </div>
             </div>
-            <p className="text-lg py-4">Reviews :</p>
-            <div className="flex py-1 overflow-x-scroll">
-              {movieData?.reviews.length > 0 &&
+
+            <p className="text-xl font-semibold text-gray-800 pt-6">Reviews:</p>
+            <div className="flex gap-4 py-4 overflow-x-auto">
+              {movieData?.reviews?.length > 0 ? (
                 movieData?.reviews?.map((review, index) => (
                   <ReviewCard
                     key={index}
@@ -236,25 +251,28 @@ const Movie = () => {
                     upvote={() => ''}
                     downvote={() => ''}
                   />
-                ))}
+                ))
+              ) : (
+                <p className="text-gray-600 italic">No reviews yet.</p>
+              )}
             </div>
           </div>
         </div>
-        <div className="img_div">
+        <div className="img_div space-y-4">
           <img
-            className="w-full h-[30rem] shadow"
+            className="w-full h-[30rem] rounded-lg shadow-md object-fill"
             src={movieData?.poster}
-            alt="poster"
+            alt="Movie Poster"
           />
           <button
             onClick={() => setOpenBuyModal(true)}
-            className="bg-[#EF5A6F] hover:bg-[#fa5d72] my-2 text-white w-full rounded-lg shadow-lg p-2"
+            className="bg-[#EF5A6F] hover:bg-[#fa5d72] text-white w-full rounded-lg shadow-lg py-3 font-medium transition duration-200 ease-in-out"
           >
             Book Tickets
           </button>
           <button
             onClick={() => addToWishlist()}
-            className="bg-gray-50 hover:bg-white my-2 w-full rounded-lg shadow p-2"
+            className="bg-gray-50 hover:bg-gray-100 w-full rounded-lg shadow-md py-3 font-medium text-gray-700 transition duration-200 ease-in-out"
           >
             Save for Later
           </button>

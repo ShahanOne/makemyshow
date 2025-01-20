@@ -8,7 +8,7 @@ const addMovie = () => {
   return (
     <>
       <Navbar />
-      <div>
+      <div className="bg-gradient-to-r from-indigo-300 to-orange-300 h-screen">
         <AddMovie />
       </div>
     </>
