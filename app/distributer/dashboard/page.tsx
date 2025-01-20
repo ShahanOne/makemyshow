@@ -68,6 +68,12 @@ const Dashboard = () => {
       />
       <div className="distributer_dashboard p-8">
         <div>
+          <a
+            href="/distributer/addMovie"
+            className="rounded-full bg-rose-500 text-white shadow p-2 m-2"
+          >
+            Add Movie
+          </a>
           <p>Listed Movies</p>
           <div className="grid grid-cols-5 gap-8 py-8">
             {' '}
@@ -78,6 +84,7 @@ const Dashboard = () => {
                   name={movie.name}
                   info={() => router.replace(`/movie/${movie._id}`)}
                   book={() => ''}
+                  theme={'theme'}
                   poster={movie.poster}
                   duration={movie.duration}
                   releaseDate={movie.releaseDate}

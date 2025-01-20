@@ -7,6 +7,7 @@ interface MovieCardProps {
   poster: string;
   duration: string;
   releaseDate: any;
+  theme: string;
   numberOfTickets: number;
   book?: () => void;
   info?: () => void;
@@ -16,15 +17,22 @@ const MovieCard = ({
   duration,
   numberOfTickets,
   releaseDate,
+  theme,
   poster,
   book,
   info,
 }: //   availableFor,
 MovieCardProps) => {
   return (
-    <div className="card bg-red-500 rounded-lg shadow-lg cursor-pointer ">
+    <div className="card max-w-60 bg-rose-500 rounded-lg shadow-lg cursor-pointer">
       <img className="h-52 w-full rounded-lg mb-2" src={poster} alt="poster" />
-      <div className="bg-slate-50 flex items-center rounded-lg h-32">
+      <div
+        className={`${
+          theme === 'light'
+            ? 'bg-slate-50 text-black'
+            : 'bg-zinc-800 text-zinc-300'
+        } flex items-center rounded-lg mb-0.5 h-32`}
+      >
         <div className="w-full p-2 text-sm ">
           <div className="flex justify-between">
             <p>
@@ -42,13 +50,13 @@ MovieCardProps) => {
           </div>
           <div className="flex justify-between gap-4 p-2">
             <button
-              className="bg-sky-500 w-full rounded-lg shadow text-white"
+              className="bg-emerald-500 w-full rounded-lg shadow text-white"
               onClick={() => info()}
             >
               Info
             </button>
             <button
-              className="bg-sky-500 w-full rounded-lg shadow text-white"
+              className="bg-emerald-500 w-full rounded-lg shadow text-white"
               onClick={() => book()}
             >
               Book

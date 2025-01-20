@@ -113,7 +113,7 @@ const LoginForm = () => {
         </div>
         <button
           onClick={() => login()}
-          className="w-full bg-sky-500 hover:bg-sky-600 transition duration-200 ease-in-out text-white font-medium py-3 rounded-lg transition-colors"
+          className="w-full bg-sky-500 hover:bg-sky-600 text-white font-medium py-3 rounded-lg transition-colors"
         >
           Login
         </button>

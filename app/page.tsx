@@ -4,11 +4,13 @@ import MovieCard from '../components/MovieCard';
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import TrendingMovie from '../components/TrendingMovie';
+import Footer from '../components/Footer';
 
 export default function Home() {
   const [allMovies, setAllMovies] = useState([]);
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [search, setSearch] = useState<string>('');
+  const [theme, setTheme] = useState<string>('light');
   const router = useRouter();
   const userType =
     typeof window !== 'undefined' && localStorage.getItem('__ut');
@@ -49,51 +51,79 @@ export default function Home() {
   };
   // console.log(trendingMovies);
 
+  const changeTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
   return (
     <>
       <Navbar
         userId={userId}
         userType={userType}
+        theme={theme}
+        changeTheme={changeTheme}
         signStatus={signInStatus}
         signInOrOut={handleSignOrOut}
       />
-      <div className="home p-8">
-        <div className="flex gap-2 justify-center text-center py-8">
-          <input
-            className="search rounded-full shadow w-3/5 p-4 text-lg text-pink-500 outline-none"
-            placeholder="Search for a movie or show..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <button className="bg-pink-400 hover:bg-pink-500 text-white px-8 py-4 text-lg italic rounded-full">
-            find
-          </button>
+      <div
+        className={`home ${
+          theme === 'light' ? 'bg-gray-50' : 'bg-zinc-900'
+        } p-8 min-h-screen`}
+      >
+        {/* Search Section */}
+        <div className="flex flex-col items-center gap-4 py-12">
+          <h1 className="text-4xl font-extrabold text-rose-500">
+            Discover Your Next Favorite Movie
+          </h1>
+          <div className="flex gap-4 w-full max-w-4xl">
+            <input
+              className="search rounded-full shadow w-full p-4 text-lg text-gray-700 outline-none border-2 border-rose-200 focus:border-rose-500 transition duration-200"
+              placeholder="Search for a movie or show..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button className="bg-rose-500 hover:bg-rose-600 text-white px-8 py-4 text-lg rounded-full shadow-lg transition duration-200">
+              Find
+            </button>
+          </div>
         </div>
 
         {/* Trending Movies Carousel */}
-        <div className="trending-movies py-8">
-          <h2 className="text-2xl font-bold mb-4">Trending Movies</h2>
-          {trendingMovies.map((movie, index) => (
-            <div key={index}>
-              <TrendingMovie
-                name={movie.name}
-                poster={movie.poster}
-                releaseDate={movie.releaseDate}
-              />
-            </div>
-          ))}
+        <div className="trending-movies py-12">
+          <h2 className="text-3xl font-bold text-rose-500 mb-6">
+            Trending Movies
+          </h2>
+          <div
+            className={`flex gap-6 ${
+              theme === 'light' ? 'bg-gray-100' : 'bg-zinc-800'
+            } rounded-lg px-2 overflow-x-scroll scrollbar-hide`}
+          >
+            {trendingMovies.map((movie, index) => (
+              <div key={index} className="flex-shrink-0">
+                <TrendingMovie
+                  name={movie.name}
+                  poster={movie.poster}
+                  releaseDate={movie.releaseDate}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* All Movies */}
-        <div>
-          <p className="text-xl font-bold mb-4">All Movies</p>
-          <div className="grid grid-cols-5 gap-8 py-8">
-            {allMovies.length &&
+        {/* All Movies Section */}
+        <div
+          className={`all-movies ${
+            theme === 'light' ? 'bg-gray-100' : 'bg-zinc-800'
+          } rounded-lg px-4 py-12`}
+        >
+          <h2 className="text-3xl font-bold text-rose-500 mb-6">All Movies</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {allMovies.length > 0 &&
               allMovies.map((movie, index) => (
                 <MovieCard
                   key={index}
                   info={() => router.replace(`/movie/${movie._id}`)}
                   book={() => ''}
+                  theme={theme}
                   name={movie.name}
                   poster={movie.poster}
                   duration={movie.duration}
@@ -104,94 +134,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
-
-// 'use client';
-// import { useRouter } from 'next/navigation';
-// import MovieCard from '../components/MovieCard';
-// import React, { useEffect, useState } from 'react';
-// import Navbar from '../components/Navbar';
-
-// export default function Home() {
-//   const [allMovies, setAllMovies] = useState([]);
-//   const [search, setSearch] = useState<string>('');
-//   const router = useRouter();
-//   const userType =
-//     typeof window !== 'undefined' && localStorage.getItem('__ut');
-//   const userId = typeof window !== 'undefined' && localStorage.getItem('__uid');
-
-//   useEffect(() => {
-//     const getAllMovies = async () => {
-//       try {
-//         const res = await fetch('/api/movies')
-//           .then((response) => response.json())
-//           .then((data) => {
-//             setAllMovies(data);
-//           });
-//       } catch (err) {
-//         console.log(err);
-//       }
-//     };
-//     getAllMovies();
-//   }, []);
-//   let signInStatus;
-//   if (userType && userId) {
-//     signInStatus = 'Out';
-//   } else {
-//     signInStatus = 'In';
-//   }
-
-//   const handleSignOrOut = () => {
-//     if (userType && userId) {
-//       // router.push(`${userType}/${userId}`);
-//       typeof window !== 'undefined' && localStorage.removeItem('__uid');
-//       typeof window !== 'undefined' && localStorage.removeItem('__ut');
-//       router.push('/');
-//     } else {
-//       router.push('/login');
-//     }
-//   };
-//   return (
-//     <>
-//       <Navbar
-//         userId={userId}
-//         userType={userType}
-//         signStatus={signInStatus}
-//         signInOrOut={handleSignOrOut}
-//       />
-//       <div className="home p-8">
-//         <div className="flex gap-2 justify-center text-center py-8">
-//           <input
-//             className="search rounded-full shadow w-3/5 p-4 text-lg text-pink-500 outline-none"
-//             placeholder="Search for a movie or show..."
-//             value={search}
-//             onChange={(e) => setSearch(e.target.value)}
-//           />
-//           <button className="bg-pink-400 hover:bg-pink-500 text-white px-8 py-4 text-lg italic rounded-full">
-//             find
-//           </button>
-//         </div>
-//         <div>
-//           <p>All Movies</p>
-//           <div className="grid grid-cols-4 gap-8 py-8">
-//             {allMovies.length &&
-//               allMovies.map((movie, index) => (
-//                 <MovieCard
-//                   key={index}
-//                   info={() => router.replace(`/movie/${movie._id}`)}
-//                   book={() => ''}
-//                   name={movie.name}
-//                   poster={movie.poster}
-//                   duration={movie.duration}
-//                   releaseDate={movie.releaseDate}
-//                   numberOfTickets={movie.numberOfTickets}
-//                 />
-//               ))}
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }

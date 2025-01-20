@@ -32,6 +32,7 @@ export async function POST(req) {
     name: name,
     duration: duration,
     distributer: distributerId,
+    isTrending:false,
     numberOfTickets: numberOfTickets,
     releaseDate: releaseDate ? new Date(releaseDate) : undefined,
     poster: poster,

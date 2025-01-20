@@ -80,6 +80,22 @@ const RegisterForm = () => {
         </div>
         <div className="mb-4">
           <label
+            htmlFor="username"
+            className="block text-gray-700 font-medium mb-2"
+          >
+            Username
+          </label>
+          <input
+            className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            id="username"
+            type="text"
+            placeholder="Your username"
+          />
+        </div>
+        <div className="mb-4">
+          <label
             htmlFor="email"
             className="block text-gray-700 font-medium mb-2"
           >
@@ -119,7 +135,7 @@ const RegisterForm = () => {
           </label>
           <input
             className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
-            value={password}
+            value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             type="password"
             id="password"
@@ -128,7 +144,7 @@ const RegisterForm = () => {
         </div>
         <button
           onClick={() => register()}
-          className="w-full bg-indigo-500 hover:bg-indigo-600 transition duration-200 ease-in-out text-white font-medium py-3 rounded-lg transition-colors"
+          className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-3 rounded-lg transition-colors"
         >
           Register
         </button>
