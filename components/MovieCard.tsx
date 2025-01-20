@@ -12,6 +12,7 @@ interface MovieCardProps {
   book?: () => void;
   info?: () => void;
 }
+
 const MovieCard = ({
   name,
   duration,
@@ -21,47 +22,54 @@ const MovieCard = ({
   poster,
   book,
   info,
-}: //   availableFor,
-MovieCardProps) => {
+}: MovieCardProps) => {
   return (
-    <div className="card max-w-60 bg-rose-500 rounded-lg shadow-lg cursor-pointer">
-      <img className="h-52 w-full rounded-lg mb-2" src={poster} alt="poster" />
+    <div
+      className={`card max-w-xs rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 ${
+        theme === 'light' ? 'bg-white' : 'bg-zinc-900'
+      }`}
+    >
+      {/* Poster Image */}
+      <img className="h-60 w-full object-cover" src={poster} alt="poster" />
+
+      {/* Content Section */}
       <div
-        className={`${
-          theme === 'light'
-            ? 'bg-slate-50 text-black'
-            : 'bg-zinc-800 text-zinc-300'
-        } flex items-center rounded-lg mb-0.5 h-32`}
+        className={`p-4 ${
+          theme === 'light' ? 'text-gray-800' : 'text-gray-200'
+        }`}
       >
-        <div className="w-full p-2 text-sm ">
-          <div className="flex justify-between">
-            <p>
-              Title: <b>{name}</b>
-            </p>
-            <p>
-              Runtime: <b>{duration}</b> mins
-            </p>
-          </div>
-          <div>
-            <p>
-              Release date: <b>{formatDate(releaseDate)}</b>
-            </p>
-            <p>Tickets remaining: {numberOfTickets}</p>
-          </div>
-          <div className="flex justify-between gap-4 p-2">
-            <button
-              className="bg-emerald-500 w-full rounded-lg shadow text-white"
-              onClick={() => info()}
-            >
-              Info
-            </button>
-            <button
-              className="bg-emerald-500 w-full rounded-lg shadow text-white"
-              onClick={() => book()}
-            >
-              Book
-            </button>
-          </div>
+        {/* Movie Title */}
+        <h3 className="text-lg font-bold mb-2">{name}</h3>
+
+        {/* Movie Details */}
+        <div className="text-sm space-y-1">
+          <p>
+            <span className="font-semibold">Runtime:</span> {duration} mins
+          </p>
+          <p>
+            <span className="font-semibold">Release Date:</span>{' '}
+            {formatDate(releaseDate)}
+          </p>
+          <p>
+            <span className="font-semibold">Tickets Left:</span>{' '}
+            {numberOfTickets}
+          </p>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="mt-4 flex justify-between gap-2">
+          <button
+            className="w-full px-4 py-2 text-sm font-medium text-white bg-rose-500 rounded-lg shadow hover:bg-rose-600 transition"
+            onClick={() => info?.()}
+          >
+            Info
+          </button>
+          <button
+            className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-500 rounded-lg shadow hover:bg-indigo-600 transition"
+            onClick={() => book?.()}
+          >
+            Book
+          </button>
         </div>
       </div>
     </div>

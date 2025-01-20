@@ -88,15 +88,18 @@ export default function Home() {
         </div>
 
         {/* Trending Movies Carousel */}
-        <div className="trending-movies py-12">
-          <h2 className="text-3xl font-bold text-rose-500 mb-6">
-            Trending Movies
-          </h2>
-          <div
-            className={`flex gap-6 ${
-              theme === 'light' ? 'bg-gray-100' : 'bg-zinc-800'
-            } rounded-lg px-2 overflow-x-scroll scrollbar-hide`}
-          >
+        <div
+          className={`trending-movies py-6 rounded-lg px-4 mb-8 ${
+            theme === 'light' ? 'bg-gray-100' : 'bg-zinc-800'
+          }`}
+        >
+          <div className="flex justify-center">
+            <h2 className="text-3xl font-bold text-rose-500 mb-12">
+              Trending Movies
+            </h2>
+          </div>
+
+          <div className="flex gap-6 overflow-x-scroll no-scrollbar">
             {trendingMovies.map((movie, index) => (
               <div key={index} className="flex-shrink-0">
                 <TrendingMovie
@@ -115,7 +118,12 @@ export default function Home() {
             theme === 'light' ? 'bg-gray-100' : 'bg-zinc-800'
           } rounded-lg px-4 py-12`}
         >
-          <h2 className="text-3xl font-bold text-rose-500 mb-6">All Movies</h2>
+          <div className="flex justify-center">
+            <h2 className="text-3xl font-bold text-rose-500 mb-6">
+              All Movies
+            </h2>
+          </div>
+
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {allMovies.length > 0 &&
               allMovies.map((movie, index) => (

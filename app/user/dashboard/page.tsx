@@ -61,6 +61,7 @@ const Dashboard = () => {
                   key={index}
                   info={() => router.replace(`/movie/${movie._id}`)}
                   book={() => ''}
+                  theme={'theme'}
                   name={movie.name}
                   poster={movie.poster}
                   duration={movie.duration}
