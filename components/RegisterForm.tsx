@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
-const RegisterForm = () => {
+const RegisterForm = ({ theme }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -41,7 +41,8 @@ const RegisterForm = () => {
             // typeof window !== 'undefined' && localStorage.setItem('__uid',token from response)
             typeof window !== 'undefined' &&
               localStorage.setItem('__uid', data[userType]._id);
-            router.push(`/${userType}/dashboard`);
+            router.push('/');
+            // router.push(`/${userType}/dashboard`);
           } else {
             toast.error('Error trying to Register, Please try again');
           }
@@ -51,9 +52,23 @@ const RegisterForm = () => {
     }
   };
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-300 to-orange-300 flex items-center justify-center">
-      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
+    <div
+      className={`min-h-screen bg-gradient-to-br ${
+        theme === 'light'
+          ? 'from-indigo-300 to-orange-300'
+          : 'from-rose-950 to-gray-900'
+      } flex items-center justify-center`}
+    >
+      <div
+        className={` ${
+          theme === 'light' ? 'bg-white' : 'bg-zinc-900'
+        } shadow-lg rounded-lg p-8 w-full max-w-md`}
+      >
+        <h2
+          className={`text-2xl font-bold ${
+            theme === 'light' ? 'text-gray-800' : 'text-gray-300'
+          } text-center mb-6`}
+        >
           Register
         </h2>
         <div className="flex justify-center gap-4 mb-6">
@@ -81,12 +96,18 @@ const RegisterForm = () => {
         <div className="mb-4">
           <label
             htmlFor="username"
-            className="block text-gray-700 font-medium mb-2"
+            className={`block ${
+              theme === 'light' ? 'text-gray-800' : 'text-gray-300'
+            } font-medium mb-2`}
           >
             Username
           </label>
           <input
-            className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
+            className={`w-full p-3 border rounded-lg outline-none focus:ring-2 ${
+              theme === 'light'
+                ? 'border-gray-300 focus:ring-indigo-500'
+                : 'bg-zinc-800 text-gray-300 border-zinc-500 focus:ring-rose-600'
+            }`}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             id="username"
@@ -97,12 +118,18 @@ const RegisterForm = () => {
         <div className="mb-4">
           <label
             htmlFor="email"
-            className="block text-gray-700 font-medium mb-2"
+            className={`block ${
+              theme === 'light' ? 'text-gray-800' : 'text-gray-300'
+            } font-medium mb-2`}
           >
             Email
           </label>
           <input
-            className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
+            className={`w-full p-3 border rounded-lg outline-none focus:ring-2 ${
+              theme === 'light'
+                ? 'border-gray-300 focus:ring-indigo-500'
+                : 'bg-zinc-800 text-gray-300 border-zinc-500 focus:ring-rose-600'
+            }`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             id="email"
@@ -113,12 +140,18 @@ const RegisterForm = () => {
         <div className="mb-6">
           <label
             htmlFor="password"
-            className="block text-gray-700 font-medium mb-2"
+            className={`block ${
+              theme === 'light' ? 'text-gray-800' : 'text-gray-300'
+            } font-medium mb-2`}
           >
             Create Password
           </label>
           <input
-            className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
+            className={`w-full p-3 border rounded-lg outline-none focus:ring-2 ${
+              theme === 'light'
+                ? 'border-gray-300 focus:ring-indigo-500'
+                : 'bg-zinc-800 text-gray-300 border-zinc-500 focus:ring-rose-600'
+            }`}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type="password"
@@ -129,12 +162,18 @@ const RegisterForm = () => {
         <div className="mb-6">
           <label
             htmlFor="password"
-            className="block text-gray-700 font-medium mb-2"
+            className={`block ${
+              theme === 'light' ? 'text-gray-800' : 'text-gray-300'
+            } font-medium mb-2`}
           >
             Confirm Password
           </label>
           <input
-            className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
+            className={`w-full p-3 border rounded-lg outline-none focus:ring-2 ${
+              theme === 'light'
+                ? 'border-gray-300 focus:ring-indigo-500'
+                : 'bg-zinc-800 text-gray-300 border-zinc-500 focus:ring-rose-600'
+            }`}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             type="password"
@@ -148,7 +187,11 @@ const RegisterForm = () => {
         >
           Register
         </button>
-        <p className="text-center text-gray-500 mt-4">
+        <p
+          className={`text-center ${
+            theme === 'light' ? 'text-gray-500' : 'text-gray-200'
+          } mt-4`}
+        >
           Already have an account?{' '}
           <a
             href="/login"

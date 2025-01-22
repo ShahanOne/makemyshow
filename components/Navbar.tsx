@@ -1,14 +1,14 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-// import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface NavbarProps {
   theme?: string;
   changeTheme?: () => void;
   userType?: string;
   userId?: string;
-  signStatus?: string;
+  isSignedIn?: boolean;
   signInOrOut?: () => void;
 }
 
@@ -17,39 +17,100 @@ const Navbar = ({
   changeTheme,
   userType,
   userId,
-  signStatus,
+  isSignedIn,
   signInOrOut,
 }: NavbarProps) => {
+  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
+  useEffect(() => {
+    setIsMounted(true); // Ensures client-side rendering after mount
+  }, []);
+
+  if (!isMounted) {
+    return null; // Avoid rendering until the component is fully mounted
+  }
+
   return (
-    <div className="flex flex-col md:flex-row justify-between bg-rose-500 text-white px-6 py-8 ">
-      <p className="text-lg md:text-xl font-bold">Make~my~Show</p>
-      <div className="flex justify-between pt-2 md:pt-0 md:justify-center gap-4 md:gap-12">
-        <button
-          className={`shadow-lg rounded-2xl px-2 cursor-pointer`}
-          onClick={changeTheme}
+    <nav className="bg-rose-500 text-white shadow-md sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        {/* Logo Section */}
+        <div
+          className="text-lg md:text-2xl font-bold cursor-pointer"
+          onClick={() => router.push('/')}
         >
-          {theme}
-        </button>{' '}
-        <p className=" cursor-pointer" onClick={() => router.push('/')}>
-          Home
-        </p>
-        <p
-          className=" cursor-pointer"
-          onClick={() => router.push(`/${userType}/${userId}`)}
-        >
-          My Account
-        </p>
-        <p className=" cursor-pointer" onClick={() => signInOrOut()}>
-          Sign {'signStatus'}
-        </p>
+          Make<span className="text-yellow-300">~</span>my
+          <span className="text-yellow-300">~</span>Show
+        </div>
+
+        {/* Navigation Links */}
+        <div className="hidden md:flex items-center space-x-6">
+          <button
+            className="bg-rose-800 text-white px-4 py-2 rounded-lg hover:bg-rose-900 transition"
+            onClick={changeTheme}
+          >
+            {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+          </button>
+          <p
+            className="cursor-pointer hover:text-yellow-300 transition"
+            onClick={() => router.push('/')}
+          >
+            Home
+          </p>
+          {isSignedIn && (
+            <p
+              className="cursor-pointer hover:text-yellow-300 transition"
+              onClick={() => router.push(`/${userType}/${userId}`)}
+            >
+              My Account
+            </p>
+          )}
+          <p
+            className="cursor-pointer hover:text-yellow-300 transition"
+            onClick={signInOrOut}
+          >
+            {isSignedIn ? 'Sign Out' : 'Sign In'}
+          </p>
+        </div>
+
+        {/* Mobile Menu */}
+        <div className="md:hidden">
+          <button
+            className="bg-rose-800 text-white px-4 py-2 rounded-lg hover:bg-rose-900 transition"
+            onClick={changeTheme}
+          >
+            {theme === 'light' ? '☀️' : '🌙'}
+          </button>
+        </div>
       </div>
-    </div>
+
+      {/* Mobile Links */}
+      <div className="md:hidden bg-rose-400 text-white px-6 py-4">
+        <div className="space-y-4">
+          <p
+            className="cursor-pointer hover:text-yellow-300 transition"
+            onClick={() => router.push('/')}
+          >
+            Home
+          </p>
+          {isSignedIn && (
+            <p
+              className="cursor-pointer hover:text-yellow-300 transition"
+              onClick={() => router.push(`/${userType}/${userId}`)}
+            >
+              My Account
+            </p>
+          )}
+          <p
+            className="cursor-pointer hover:text-yellow-300 transition"
+            onClick={signInOrOut}
+          >
+            {isSignedIn ? 'Sign Out' : 'Sign In'}
+          </p>
+        </div>
+      </div>
+    </nav>
   );
 };
 
 export default Navbar;
-// ${
-//         themeLight ? 'bg-slate-300 ' : 'bg-zinc-800'
-//       }

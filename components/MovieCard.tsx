@@ -59,13 +59,13 @@ const MovieCard = ({
         {/* Action Buttons */}
         <div className="mt-4 flex justify-between gap-2">
           <button
-            className="w-full px-4 py-2 text-sm font-medium text-white bg-rose-500 rounded-lg shadow hover:bg-rose-600 transition"
+            className="w-full px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg shadow hover:bg-red-700 transition"
             onClick={() => info?.()}
           >
             Info
           </button>
           <button
-            className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-500 rounded-lg shadow hover:bg-indigo-600 transition"
+            className="w-full px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-lg shadow hover:bg-pink-700 transition"
             onClick={() => book?.()}
           >
             Book

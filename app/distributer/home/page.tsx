@@ -1,22 +1,31 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import Navbar from '../../../components/Navbar';
 import MovieCard from '../../../components/MovieCard';
 import React, { useEffect, useState } from 'react';
-import Navbar from '../../../components/Navbar';
+import { useRouter } from 'next/navigation';
 
-const Dashboard = () => {
-  const [allMovies, setAllMovies] = useState([]);
+const Home = () => {
+  const [listedMovies, setListedMovies] = useState([]);
   const router = useRouter();
 
   const userType =
     typeof window !== 'undefined' && localStorage.getItem('__ut');
   const userId = typeof window !== 'undefined' && localStorage.getItem('__uid');
-  let signInStatus;
-  if (userType && userId) {
-    signInStatus = 'Out';
-  } else {
-    signInStatus = 'In';
+
+  let distributerId;
+  if (userType === 'distributer') {
+    distributerId =
+      typeof window !== 'undefined' && localStorage.getItem('__uid');
   }
+  let signInStatus: boolean;
+  useEffect(() => {
+    if (userType && userId) {
+      signInStatus = true;
+    } else {
+      signInStatus = false;
+      router.push('/');
+    }
+  }, [userType, userId]);
 
   const handleSignOrOut = () => {
     if (userType && userId) {
@@ -28,14 +37,23 @@ const Dashboard = () => {
       router.push('/login');
     }
   };
-
   useEffect(() => {
     const getAllMovies = async () => {
       try {
-        const res = await fetch('/api/movies')
+        const res = await fetch('/api/distributer/movies', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify([
+            {
+              distributerId: distributerId.length && distributerId,
+            },
+          ]),
+        })
           .then((response) => response.json())
           .then((data) => {
-            setAllMovies(data);
+            setListedMovies(data);
           });
       } catch (err) {
         console.log(err);
@@ -48,21 +66,28 @@ const Dashboard = () => {
       <Navbar
         userId={userId}
         userType={userType}
-        signStatus={signInStatus}
         signInOrOut={handleSignOrOut}
+        isSignedIn={signInStatus}
       />
-      <div className="user_dashboard p-8">
+      <div className="distributer_home p-8">
         <div>
+          <a
+            href="/distributer/addMovie"
+            className="rounded-full bg-rose-500 text-white shadow p-2 m-2"
+          >
+            Add Movie
+          </a>
           <p>Listed Movies</p>
-          <div className="grid grid-cols-4 gap-8 py-8">
-            {allMovies.length &&
-              allMovies.map((movie, index) => (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {' '}
+            {listedMovies.length &&
+              listedMovies.map((movie, index) => (
                 <MovieCard
                   key={index}
+                  name={movie.name}
                   info={() => router.replace(`/movie/${movie._id}`)}
                   book={() => ''}
                   theme={'theme'}
-                  name={movie.name}
                   poster={movie.poster}
                   duration={movie.duration}
                   releaseDate={movie.releaseDate}
@@ -76,4 +101,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Home;

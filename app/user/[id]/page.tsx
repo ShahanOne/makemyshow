@@ -17,12 +17,15 @@ const User = () => {
   const userType =
     typeof window !== 'undefined' && localStorage.getItem('__ut');
   //   const userId = typeof window !== 'undefined' && localStorage.getItem('__uid');
-  let signInStatus;
-  if (userType && userId) {
-    signInStatus = 'Out';
-  } else {
-    signInStatus = 'In';
-  }
+  let signInStatus: boolean;
+  useEffect(() => {
+    if (userType && userId) {
+      signInStatus = true;
+    } else {
+      signInStatus = false;
+      router.push('/');
+    }
+  }, [userType, userId]);
 
   const handleSignOrOut = () => {
     if (userType && userId) {
@@ -65,7 +68,7 @@ const User = () => {
       <Navbar
         userId={userId}
         userType={userType}
-        signStatus={signInStatus}
+        isSignedIn={signInStatus}
         signInOrOut={handleSignOrOut}
       />
       <div>

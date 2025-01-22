@@ -40,8 +40,8 @@ const Movie = () => {
   });
   const [review, setReview] = useState('');
   const [stars, setStars] = useState(0);
-
   const [openBuyModal, setOpenBuyModal] = useState(false);
+  const [theme, setTheme] = useState<string>('light');
 
   const router = useRouter();
   const pathname = usePathname();
@@ -50,11 +50,11 @@ const Movie = () => {
     typeof window !== 'undefined' && localStorage.getItem('__ut');
   const userId = typeof window !== 'undefined' && localStorage.getItem('__uid');
 
-  let signInStatus;
+  let signInStatus: boolean;
   if (userType && userId) {
-    signInStatus = 'Out';
+    signInStatus = true;
   } else {
-    signInStatus = 'In';
+    signInStatus = false;
   }
 
   const handleSignOrOut = () => {
@@ -143,52 +143,112 @@ const Movie = () => {
   const handleStarClick = (index) => {
     setStars(stars === index ? 0 : index);
   };
+
+  const changeTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
   return (
     <>
       <Navbar
         userId={userId}
         userType={userType}
-        signStatus={signInStatus}
+        isSignedIn={signInStatus}
+        changeTheme={changeTheme}
         signInOrOut={handleSignOrOut}
       />
-      <div className="grid grid-cols-3 gap-8 text-gray-700 p-4 bg-gradient-to-r from-indigo-300 to-orange-300">
-        <div className="col-span-2 rounded-lg bg-white shadow-lg p-6 min-h-screen">
+      <div
+        className={`grid grid-cols-3 gap-8 p-4 bg-gradient-to-br ${
+          theme === 'light'
+            ? 'from-indigo-300 to-orange-300'
+            : 'from-rose-950 to-gray-900'
+        }`}
+      >
+        <div
+          className={`col-span-2 rounded-lg ${
+            theme === 'light' ? 'bg-gray-50' : 'bg-zinc-900'
+          } shadow-lg p-6 min-h-screen`}
+        >
           {/* Movie Info Section */}
           <div className="info_div">
-            <p className="text-3xl font-semibold text-gray-800">
+            <p
+              className={`text-3xl font-semibold ${
+                theme === 'light' ? 'text-gray-800' : 'text-gray-300'
+              }`}
+            >
               {movieData?.name}
             </p>
             <div className="grid grid-cols-2 py-6 gap-4">
-              <p className="text-sm font-medium text-gray-600">
+              <p
+                className={`text-sm font-medium ${
+                  theme === 'light' ? 'text-gray-600' : 'text-gray-400'
+                }`}
+              >
                 Release Date:{' '}
-                <span className="text-base font-semibold text-gray-800">
+                <span
+                  className={`text-base font-semibold ${
+                    theme === 'light' ? 'text-gray-800' : 'text-gray-300'
+                  }`}
+                >
                   {formatDate(movieData?.releaseDate)}
                 </span>
               </p>
-              <p className="text-sm font-medium text-gray-600">
+              <p
+                className={`text-sm font-medium ${
+                  theme === 'light' ? 'text-gray-600' : 'text-gray-400'
+                }`}
+              >
                 Duration:{' '}
-                <span className="text-base font-semibold text-gray-800">
+                <span
+                  className={`text-base font-semibold ${
+                    theme === 'light' ? 'text-gray-800' : 'text-gray-300'
+                  }`}
+                >
                   {movieData?.duration} minutes
                 </span>
               </p>
-              <p className="text-sm font-medium text-gray-600">
+              <p
+                className={`text-sm font-medium ${
+                  theme === 'light' ? 'text-gray-600' : 'text-gray-400'
+                }`}
+              >
                 Distributor/Studio:{' '}
-                <span className="text-base font-semibold text-gray-800">
+                <span
+                  className={`text-base font-semibold ${
+                    theme === 'light' ? 'text-gray-800' : 'text-gray-300'
+                  }`}
+                >
                   {movieData?.distributer?.username}
                 </span>
               </p>
-              <p className="text-sm font-medium text-gray-600">
+              <p
+                className={`text-sm font-medium ${
+                  theme === 'light' ? 'text-gray-600' : 'text-gray-400'
+                }`}
+              >
                 Expiring In:{' '}
-                <span className="text-base font-semibold text-gray-800">
+                <span
+                  className={`text-base font-semibold ${
+                    theme === 'light' ? 'text-gray-800' : 'text-gray-300'
+                  }`}
+                >
                   {movieData?.availableFor} Days
                 </span>
               </p>
             </div>
             <div className="py-4">
-              <p className="text-lg font-semibold text-gray-800">
+              <p
+                className={`text-lg font-semibold ${
+                  theme === 'light' ? 'text-gray-800' : 'text-gray-300'
+                }`}
+              >
                 Description:
               </p>
-              <p className="italic text-sm text-gray-600 pt-2">
+              <p
+                className={`italic text-sm ${
+                  theme === 'light' ? 'text-gray-600' : 'text-gray-400'
+                } pt-2`}
+              >
                 {movieData?.description?.length > 0
                   ? movieData?.description
                   : 'No description provided.'}
@@ -198,12 +258,28 @@ const Movie = () => {
 
           {/* Reviews Section */}
           <div className="reviews_div pt-6">
-            <div className="bg-pink-50 border border-pink-200 rounded-lg shadow-sm p-4">
-              <p className="italic text-gray-700">
+            <div
+              className={`${
+                theme === 'light'
+                  ? 'bg-pink-50 border-pink-200'
+                  : 'bg-zinc-800 border-zinc-800'
+              } border rounded-lg shadow p-4`}
+            >
+              <p
+                className={`italic ${
+                  theme === 'light' ? 'text-gray-700' : 'text-gray-300'
+                }`}
+              >
                 Watched the movie? Post a review.
               </p>
               <div className="py-2">
-                <p className="text-sm text-gray-600 font-medium">Stars:</p>
+                <p
+                  className={`text-sm ${
+                    theme === 'light' ? 'text-gray-600' : 'text-gray-400'
+                  } font-medium`}
+                >
+                  Stars:
+                </p>
                 <div className="flex gap-1 mt-1">
                   {[1, 2, 3, 4, 5].map((index) => (
                     <span
@@ -239,7 +315,13 @@ const Movie = () => {
               </div>
             </div>
 
-            <p className="text-xl font-semibold text-gray-800 pt-6">Reviews:</p>
+            <p
+              className={`text-xl font-semibold ${
+                theme === 'light' ? 'text-gray-800' : 'text-gray-300'
+              } pt-6`}
+            >
+              Reviews:
+            </p>
             <div className="flex gap-4 py-4 overflow-x-auto">
               {movieData?.reviews?.length > 0 ? (
                 movieData?.reviews?.map((review, index) => (

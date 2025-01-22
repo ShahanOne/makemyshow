@@ -71,7 +71,7 @@ const AddMovie = () => {
         .then((data) => {
           if (data?.movie) {
             toast.success('Movie added successfully!');
-            router.push('/distributer/dashboard');
+            router.push('/distributer/home');
           } else {
             toast.error('Failed to add movie.');
           }
